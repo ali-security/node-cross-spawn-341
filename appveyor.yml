@@ -8,20 +8,22 @@ init:
 # there will be intermitent errors when running `npm install`
 environment:
   matrix:
-    - nodejs_version: 4.7
+    - nodejs_version: 4.7.3
       npm_version: ^3.0.0
-    - nodejs_version: 4.8
+    - nodejs_version: 4.8.7
       npm_version: ^3.0.0
-    - nodejs_version: 5.6
+    - nodejs_version: 5.6.0
       npm_version: ^3.0.0
-    - nodejs_version: 5.7
+    - nodejs_version: 5.7.1
       npm_version: ^3.0.0
-    - nodejs_version: 6
-    - nodejs_version: 8
-    - nodejs_version: 9
+
+    # - nodejs_version: 6
+    # - nodejs_version: 8
+    # - nodejs_version: 9
 
 install:
-  - ps: Install-Product node $env:nodejs_version
+  - ps: Update-NodeJsInstallation $env:nodejs_version x86
+  # - ps: Install-Product node $env:nodejs_version
   - ps: |
       if ($env:npm_version)
       {
@@ -37,5 +39,5 @@ test_script:
   - cmd: npm test --no-color
 
 after_test:
-  - "npm i codecov"
+  - "npm i codecov@3.0.0"
   - "node_modules/.bin/codecov"
